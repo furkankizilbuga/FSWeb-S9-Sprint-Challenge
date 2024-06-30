@@ -130,7 +130,7 @@ export default function AppFunctional(props) {
     // payloadu POST etmek için bir submit handlera da ihtiyacınız var.
 
     evt.preventDefault()
-    
+
     if(!validateEmail(payload.email) || payload.x < 1 || payload.x > 3 || payload.y < 1 || payload.y > 3 || payload.steps <= 0) {
       console.log("Unprocessable Entity")
       return;
@@ -148,8 +148,8 @@ export default function AppFunctional(props) {
   return (
     <div id="wrapper" className={props.className}>
       <div className="info">
-        <h3 id="coordinates">{getXYMesaj()}</h3>
-        <h3 id="steps">{data.steps} kere ilerlediniz</h3>
+        <h3 data-testid="coordinates" id="coordinates">{getXYMesaj()}</h3>
+        <h3 data-testid="steps" id="steps">{data.steps} kere ilerlediniz</h3>
       </div>
       <div id="grid">
         {
@@ -164,10 +164,10 @@ export default function AppFunctional(props) {
         <h3 id="message">{data.message}</h3>
       </div>
       <div id="keypad">
-        <button onClick={sonrakiIndex} id="left">SOL</button>
-        <button onClick={sonrakiIndex} id="up">YUKARI</button>
-        <button onClick={sonrakiIndex} id="right">SAĞ</button>
-        <button onClick={sonrakiIndex} id="down">AŞAĞI</button>
+        <button onClick={sonrakiIndex} data-testid="left" id="left">SOL</button>
+        <button onClick={sonrakiIndex} data-testid="up" id="up">YUKARI</button>
+        <button onClick={sonrakiIndex} data-testid="right" id="right">SAĞ</button>
+        <button onClick={sonrakiIndex} data-testid="down" id="down">AŞAĞI</button>
         <button onClick={reset} id="reset">reset</button>
       </div>
       <form onSubmit={onSubmit}>
