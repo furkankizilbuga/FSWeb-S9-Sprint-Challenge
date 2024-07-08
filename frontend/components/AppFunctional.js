@@ -85,13 +85,24 @@ export default function AppFunctional(props) {
 
     const [x, y] = getXY()
 
-    if(yon === "left" && x === 1 || 
-      yon === "right" && x === 3 ||
-      yon === "up" && y === 1 || 
-      yon === "down" && y === 3) {
-      setData({...data, "message": `You can't go ${yon}`})
+    if(yon === "left" && x === 1) {
+      setData({...data, "message": `Sola gidemezsiniz`})
       return;
     }
+      else if(yon === "right" && x === 3){
+        setData({...data, "message": `Sağa gidemezsiniz`})
+        return;
+      }
+      else if(yon === "up" && y === 1){
+        setData({...data, "message": `Yukarıya gidemezsiniz`})
+        return;
+      }
+      else if(yon === "down" && y === 3){
+        setData({...data, "message": `Aşağıya gidemezsiniz`})
+        return;
+      }
+
+
 
     ilerle(yon)
 
@@ -131,17 +142,33 @@ export default function AppFunctional(props) {
 
     evt.preventDefault()
 
+    if(payload.email === "") {
+      setData({...data, "message": `Ouch: email is required`})
+    } else if(!validateEmail(payload.email)) {
+      setData({...data, "message": `Ouch: email must be a valid email`})
+    }
+
     if(!validateEmail(payload.email) || payload.x < 1 || payload.x > 3 || payload.y < 1 || payload.y > 3 || payload.steps <= 0) {
       console.log("Unprocessable Entity")
       return;
     }
 
+    let index = data.email.indexOf("@")
+    let name = data.email.slice(0, index)
+
+
     axios
       .post("http://localhost:9000/api/result", payload)
       .then(res => {
         console.log(res.data)
+        setData({...data, "message": `${name} win`})
       })
-      .catch(err => console.warn(err))
+      .catch(err => {
+        console.warn(err)
+        setData({...data, "message": `${data.email} failure`})
+      })
+
+      setData({...data, "email": initialEmail})
 
   }
 
@@ -161,7 +188,7 @@ export default function AppFunctional(props) {
         }
       </div>
       <div className="info">
-        <h3 id="message">{data.message}</h3>
+        <h3 id="message" data-testid="message">{data.message}</h3>
       </div>
       <div id="keypad">
         <button onClick={sonrakiIndex} data-testid="left" id="left">SOL</button>
@@ -171,8 +198,8 @@ export default function AppFunctional(props) {
         <button onClick={reset} id="reset">reset</button>
       </div>
       <form onSubmit={onSubmit}>
-        <input onChange={emailHandler} value={data.email} id="email" type="email" placeholder="email girin"></input>
-        <input id="submit" type="submit"></input>
+        <input data-testid="input" onChange={emailHandler} value={data.email} id="email" type="email" placeholder="email girin"></input>
+        <input data-testid="submit" id="submit" type="submit"></input>
       </form>
     </div>
   )
