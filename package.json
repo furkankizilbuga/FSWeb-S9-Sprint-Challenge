@@ -8,8 +8,7 @@
     "heroku-postbuild": "npm run webpack",
     "frontend": "webpack serve --open",
     "backend": "node index.js",
-    "start": "npm run backend",
-    "build": "cd frontend && npm run build"
+    "start": "npm run backend"
   },
   "devDependencies": {
     "@babel/core": "7.18.2",
